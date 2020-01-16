@@ -43,6 +43,8 @@ sonata_admin:
                 label:            FAQ
                 icon:             '<i class="fa fa-question"></i>'
                 on_top:           true
+                items:
+                    - wd_faq.admin.faq
 ```
 > if you use category use the config bellow
 ```yaml
