@@ -1,0 +1,10 @@
+services:
+  WebEtDesign\FaqBundle\Repository\:
+    resource: '../../Repository/*'
+    autowire: true
+    tags: ['doctrine.repository_service']
+
+  WebEtDesign\FaqBundle\Controller\FaqController:
+    arguments:
+      - '%wd_faq.config%'
+    tags: ['controller.service_arguments']
