@@ -55,6 +55,11 @@ class FAQ
     private $category;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $visible;
+
+    /**
      * @inheritDoc
      */
     public function __toString()
@@ -138,4 +143,22 @@ class FAQ
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVisible()
+    {
+        return $this->visible;
+    }
+
+    /**
+     * @param mixed $visible
+     */
+    public function setVisible($visible): void
+    {
+        $this->visible = $visible;
+    }
+
+
 }

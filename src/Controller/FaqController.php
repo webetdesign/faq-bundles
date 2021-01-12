@@ -28,7 +28,9 @@ class FaqController extends BaseCmsController
             $faqs = [];
             /** @var Category $category */
             foreach ($categories as $category) {
-                $faqs[$category->getTitle()] = $category->getFaqs();
+                $faqs[$category->getTitle()] = array_filter($category->getFaqs()->toArray(), function (Faq $faq){
+                    return $faq->getVisible() === true || $faq->getVisible() === null;
+                });
             }
 
         } else {

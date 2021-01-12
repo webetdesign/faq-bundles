@@ -23,6 +23,8 @@ class CategoryRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('c');
         $qb->join('c.faqs', 'f')
+            ->where('f.visible = :visible or f.visible is null')
+            ->setParameter('visible', true)
             ->orderBy('c.position');
 
         return $qb->getQuery()->getResult();

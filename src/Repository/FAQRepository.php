@@ -22,6 +22,8 @@ class FAQRepository extends ServiceEntityRepository
     public function findOrderedByPosition()
     {
         $qb = $this->createQueryBuilder('f');
+        $qb->where('f.visible = :visible or f.visible is null')
+            ->setParameter('visible', true);
         $qb->orderBy('f.position', 'ASC');
 
         return $qb->getQuery()->getResult();

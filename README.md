@@ -62,6 +62,26 @@ sonata_admin:
 ```
 
 ```yaml
+# config/packages/stof_doctrine_extensions.yaml
+stof_doctrine_extensions:
+    default_locale: fr
+    orm:
+        default:
+            [...]
+            sortable: true
+
+```
+
+```yaml
+# config/packages/sonata_admin.yaml
+
+  assets:
+    extra_javascripts:
+      [...]
+      - bundles/pixsortablebehavior/js/init.js
+```
+
+```yaml
 web_et_design_cms:
   pages:
     faq:

@@ -12,6 +12,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 final class FAQAdmin extends AbstractAdmin
 {
@@ -37,11 +38,14 @@ final class FAQAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('question');
+            ->add('visible', null, [
+                'label' => 'Visible',
+            ]);
 
         if ($this->config['use_category']) {
             $datagridMapper->add('category', null, [
-                'show_filter' => true
+                'show_filter' => true,
+                'label' => 'Catégorie'
             ]);
         }
     }
@@ -64,13 +68,26 @@ final class FAQAdmin extends AbstractAdmin
         }
 
         if ($this->config['use_category']) {
-            $listMapper->addIdentifier('category');
+            $listMapper->addIdentifier('category', null, [
+                'label' => 'Catégorie'
+            ]);
         }
 
         $listMapper
-            ->add('question')
-            ->add('createdAt')
-            ->add('updatedAt')
+            ->add('question', null,  [
+                'label' => 'Question'
+            ])
+            ->add('createdAt', null,  [
+                'label' => 'Date de création',
+                'format' => 'd/m/y'
+            ])
+            ->add('updatedAt', null,  [
+                'label' => 'Dernière modification',
+                'format' => 'd/m/y'
+            ])
+            ->add('visible', null, [
+                'label' => 'Visible',
+            ])
             ->add('_action', null, [
                 'actions' => [
                     'show'   => [],
@@ -83,31 +100,52 @@ final class FAQAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         if ($this->config['use_category']) {
-            $formMapper->add('category', ModelListType::class);
+            $formMapper->add('category', ModelListType::class, [
+                'label' => 'Catégorie'
+            ]);
         }
 
         $formMapper
-            ->add('question')
+            ->add('question', null,  [
+                'label' => 'Question'
+            ])
             ->add('answer', SimpleFormatterType::class,
                 [
                     'required'         => false,
                     'format'           => 'richhtml',
                     'ckeditor_context' => 'default',
+                    'label' => 'Réponse',
                     'attr'             => [
                         'rows' => 15
                     ]
-                ]);
+                ])
+            ->add('visible', CheckboxType::class, [
+                'label' => 'Visible',
+                'required' => false
+            ])
+        ;
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
-            ->add('id')
-            ->add('question')
-            ->add('answer')
-            ->add('position')
-            ->add('createdAt')
-            ->add('updatedAt');
+            ->add('question', null,  [
+                'label' => 'Question'
+            ])
+            ->add('createdAt', null,  [
+                'label' => 'Date de création',
+                'format' => 'd/m/y'
+            ])
+            ->add('updatedAt', null,  [
+                'label' => 'Dernière modification',
+                'format' => 'd/m/y'
+            ])
+            ->add('answer', null, [
+                'label' => 'Réponse',
+            ])
+            ->add('visible', null, [
+                'label' => 'Visible',
+            ]);
     }
 
     protected function configureRoutes(RouteCollection $collection)
