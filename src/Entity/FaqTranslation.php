@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="faq__translation")
+ * @ORM\Table(name="faq__faq_translation")
  */
 class FaqTranslation implements TranslationInterface
 {
