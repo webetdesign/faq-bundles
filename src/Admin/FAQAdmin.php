@@ -33,7 +33,6 @@ final class FaqAdmin extends AbstractAdmin
         '_sort_by'    => 'position',
     ];
 
-
     /**
      * @inheritDoc
      */
