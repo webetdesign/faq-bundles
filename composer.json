@@ -1,5 +1,6 @@
 {
   "name": "webetdesign/faq-bundle",
+  "description": "faq bundle",
   "type": "symfony-bundle",
   "license": "proprietary",
   "authors": [
@@ -23,7 +24,7 @@
     "symfony/dependency-injection": "^4.0",
     "symfony/doctrine-bridge": "^4.2",
     "symfony/event-dispatcher": "^4.0",
-    "symfony/expression-language": "^4.0",
+    "symfony/expression-language": "^4.0"
   },
   "require-dev": {
     "sonata-project/admin-bundle": "^3.81",
