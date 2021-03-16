@@ -20,6 +20,8 @@ class FaqBundleExtension extends Extension
         $loader->load('services.yaml');
         $loader->load('admin.yaml');
 
+        $container->setParameter('wd_faq.locales', $config['locales']);
+        $container->setParameter('wd_faq.default_locale', $config['default_locale']);
         $container->setParameter('wd_faq.config', $config['configuration']);
 
     }

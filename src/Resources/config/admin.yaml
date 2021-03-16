@@ -1,13 +1,13 @@
 services:
   wd_faq.admin.faq:
-    class: WebEtDesign\FaqBundle\Admin\FAQAdmin
-    arguments: [~, WebEtDesign\FaqBundle\Entity\FAQ, PixSortableBehaviorBundle:SortableAdmin, '%wd_faq.config%']
+    class: WebEtDesign\FaqBundle\Admin\FaqAdmin
+    arguments: [~, WebEtDesign\FaqBundle\Entity\Faq, PixSortableBehaviorBundle:SortableAdmin, '@parameter_bag']
     tags:
       - { name: sonata.admin, manager_type: orm, group: FAQ, label: FAQ, icon: <i class="fa fa-question" aria-hidden="true"></i> }
     public: true
   wd_faq.admin.category:
     class: WebEtDesign\FaqBundle\Admin\CategoryAdmin
-    arguments: [~, WebEtDesign\FaqBundle\Entity\Category, PixSortableBehaviorBundle:SortableAdmin]
+    arguments: [~, WebEtDesign\FaqBundle\Entity\Category, PixSortableBehaviorBundle:SortableAdmin, '@parameter_bag']
     tags:
       - { name: sonata.admin, manager_type: orm, group: FAQ, label: Category, show_in_dashboard: "@=parameter('wd_faq.config')['use_category']" }
     public: true

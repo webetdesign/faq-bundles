@@ -17,7 +17,7 @@
 ```json
 {
   "require": {
-    "webetdesign/faq-bundle": "^1.0"
+    "webetdesign/faq-bundle": "^1.1.0"
   }
 }
 ```
@@ -29,6 +29,8 @@ By default categories are disabled add this configuration to activate them.
 ```yaml
 # config/packages/wd_faq.yaml
 wd_faq:
+  locale: '%locales%'
+  default_locale: '%default_locale%'
   configuration:
     use_category: true
 ```
@@ -84,13 +86,53 @@ stof_doctrine_extensions:
 ```yaml
 web_et_design_cms:
   pages:
+    faq_category:
+      label: Faq catégories
+      controller: WebEtDesign\FaqBundle\Controller\CategoryController
+      action: __invoke
+      template: page/faq/category.html.twig # TODO create your template
+      route: faq_category
+      params:
+        category:
+          default: null
+          requirement: null
+          entity: WebEtDesign\FaqBundle\Entity\Category
+          property: slug
+      contents:
+        # TODO add contents according to your needs
+        - { label: 'title', code: 'title', type: 'TEXT' }
+        - { label: 'subtitle', code: 'subtitle', type: 'TEXT' }
+    
     faq:
       label: faq
       controller: WebEtDesign\FaqBundle\Controller\FaqController
+      action: __invoke
+      template: page/faq/faq.html.twig # TODO create your template
+      route: faq
+      params:
+        category:
+          default: null
+          requirement: null
+          entity: WebEtDesign\FaqBundle\Entity\Category
+          property: slug
+        faq:
+          default: null
+          requirement: null
+          entity: WebEtDesign\FaqBundle\Entity\Faq
+          property: slug
+      contents:
+        # TODO add contents according to your needs
+        - { label: 'title', code: 'title', type: 'TEXT' }
+        - { label: 'subtitle', code: 'subtitle', type: 'TEXT' }
+
+    faq_dropdown:
+      label: faq
+      controller: WebEtDesign\FaqBundle\Controller\DropDownFaqController
       action: __invoke
       template: pages/faq.html.twig # TODO create your template
       contents:
         # TODO add contents according to your needs
         - { label: 'title', code: 'title', type: 'TEXT' }
 ```
-> You can now create the pages in admin.
+> You can now create the pages in admin. 
+> Different controllers are available if you want a page with dropdowns or several pages (category, faq)

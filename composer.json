@@ -10,10 +10,12 @@
   ],
   "require": {
     "php": "^7.1",
+    "a2lix/translation-form-bundle": "^3.0",
     "doctrine/common": "^2.7",
     "doctrine/doctrine-bundle": "^1.10",
     "doctrine/inflector": "^1.1",
     "doctrine/orm": "^2.6",
+    "knplabs/doctrine-behaviors": "^2.0",
     "pixassociates/sortable-behavior-bundle": "^1.5",
     "sonata-project/admin-bundle": "^3.45",
     "sonata-project/formatter-bundle": "^4.1",

@@ -6,53 +6,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
  * @ORM\Entity(repositoryClass="WebEtDesign\FaqBundle\Repository\CategoryRepository")
  * @ORM\Table(name="faq__category")
+ *
+ * @method string getTitle()
+ * @method string getSlug()
+ * @method self setTitle() setTitle(string $label)
+ * @method self setSlug() setSlug(string $slug)
  */
-class Category
+class Category implements TranslatableInterface
 {
+    use TimestampableEntity;
+    use TranslatableTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
-
-    /**
-     * @var null|string
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"title"})
-     */
-    private $slug;
-
-    /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default": 0})
      * @Gedmo\SortablePosition
      */
-    private $position;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="create")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="update")
-     */
-    private $updatedAt;
+    private int $position = 0;
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="WebEtDesign\FaqBundle\Entity\FAQ", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Faq", mappedBy="category")
      * @ORM\OrderBy({"position" = "ASC"})
      */
     private $faqs;
@@ -60,6 +48,15 @@ class Category
     public function __construct()
     {
         $this->faqs = new ArrayCollection();
+    }
+
+    public function __call($method, $arguments)
+    {
+        if ($method == '_action') {
+            return null;
+        }
+
+        return PropertyAccess::createPropertyAccessor()->getValue($this->translate(), $method);
     }
 
     /**
@@ -75,18 +72,6 @@ class Category
         return $this->id;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
     public function getPosition(): ?int
     {
         return $this->position;
@@ -99,57 +84,15 @@ class Category
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
     /**
-     * @param string $slug
-     * @return Category
-     */
-    public function setSlug(?string $slug): Category
-    {
-        $this->slug = $slug;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @return Collection|FAQ[]
+     * @return Collection|Faq[]
      */
     public function getFaqs(): Collection
     {
         return $this->faqs;
     }
 
-    public function addFaq(FAQ $faq): self
+    public function addFaq(Faq $faq): self
     {
         if (!$this->faqs->contains($faq)) {
             $this->faqs[] = $faq;
@@ -159,7 +102,7 @@ class Category
         return $this;
     }
 
-    public function removeFaq(FAQ $faq): self
+    public function removeFaq(Faq $faq): self
     {
         if ($this->faqs->contains($faq)) {
             $this->faqs->removeElement($faq);

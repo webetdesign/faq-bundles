@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WebEtDesign\FaqBundle\Admin;
 
+use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -12,27 +13,36 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-final class FAQAdmin extends AbstractAdmin
+final class FaqAdmin extends AbstractAdmin
 {
     private $config;
 
     /**
-     * @inheritDoc
+     * @var ParameterBagInterface
      */
-    public function __construct($code, $class, $baseControllerName, $config)
-    {
-        parent::__construct($code, $class, $baseControllerName);
-        $this->config = $config;
-    }
-
+    private ParameterBagInterface $parameterBag;
 
     protected $datagridValues = [
         '_page'       => 1,
         '_sort_order' => 'ASC',
         '_sort_by'    => 'position',
     ];
+
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct($code, $class, $baseControllerName, ParameterBagInterface $parameterBag)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->parameterBag = $parameterBag;
+        $this->config = $this->parameterBag->get('wd_faq.config');
+    }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
@@ -106,22 +116,32 @@ final class FAQAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('question', null,  [
-                'label' => 'Question'
-            ])
-            ->add('answer', SimpleFormatterType::class,
-                [
-                    'required'         => false,
-                    'format'           => 'richhtml',
-                    'ckeditor_context' => 'default',
-                    'label' => 'Réponse',
-                    'attr'             => [
-                        'rows' => 15
-                    ]
-                ])
             ->add('visible', CheckboxType::class, [
                 'label' => 'Visible',
                 'required' => false
+            ])
+            ->add('translations', TranslationsType::class, [
+                'label'            => false,
+                'locales'          => $this->parameterBag->get('locales'),
+                'default_locale'   => $this->parameterBag->get('default_locale'),
+                'required_locales' => [$this->parameterBag->get('default_locale')],
+                'fields'           => [
+                    'question'       => [
+                        'field_type' => TextType::class,
+                        'label' => 'Question',
+                    ],
+                    'answer'       => [
+                        'field_type' => SimpleFormatterType::class,
+                        'required'         => false,
+                        'format'           => 'richhtml',
+                        'ckeditor_context' => $this->config['ckeditor_context'],
+                        'label' => 'Réponse',
+                        'attr'             => [
+                            'rows' => 15
+                        ]
+                    ],
+                ],
+                'excluded_fields'  => ['slug']
             ])
         ;
     }

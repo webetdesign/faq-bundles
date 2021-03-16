@@ -2,21 +2,21 @@
 
 namespace WebEtDesign\FaqBundle\Repository;
 
-use WebEtDesign\FaqBundle\Entity\FAQ;
+use WebEtDesign\FaqBundle\Entity\Faq;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method FAQ|null find($id, $lockMode = null, $lockVersion = null)
- * @method FAQ|null findOneBy(array $criteria, array $orderBy = null)
- * @method FAQ[]    findAll()
- * @method FAQ[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Faq|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Faq|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Faq[]    findAll()
+ * @method Faq[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FAQRepository extends ServiceEntityRepository
+class FaqRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, FAQ::class);
+        parent::__construct($registry, Faq::class);
     }
 
     public function findOrderedByPosition()
@@ -29,32 +29,15 @@ class FAQRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    // /**
-    //  * @return FAQ[] Returns an array of FAQ objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findOneBySlug(string $slug)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('f');
 
-    /*
-    public function findOneBySomeField($value): ?FAQ
-    {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb
+            ->innerJoin('f.translations', 't')
+            ->andWhere('t.slug = :slug')
+            ->setParameter('slug', $slug);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
-    */
 }

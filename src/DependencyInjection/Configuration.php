@@ -14,9 +14,14 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('wd_faq');
         $rootNode
             ->children()
+                ->scalarNode('default_locale')->isRequired()->end()
+                ->arrayNode('locales')
+                    ->scalarPrototype()->isRequired()->end()
+                ->end()
                 ->arrayNode('configuration')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('use_category')->defaultFalse()->end()
+                        ->scalarNode('ckeditor_context')->defaultValue('default')->end()
                     ->end()
                 ->end()
             ->end();
