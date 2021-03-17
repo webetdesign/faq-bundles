@@ -39,8 +39,11 @@ class CategoryRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findOneBySlug(string $slug)
+    public function findOneBySlug(?string $slug)
     {
+        if (!$slug) {
+            return null;
+        }
         $qb = $this->createQueryBuilder('c');
 
         $qb
