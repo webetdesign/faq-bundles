@@ -9,5 +9,5 @@ services:
     class: WebEtDesign\FaqBundle\Admin\CategoryAdmin
     arguments: [~, WebEtDesign\FaqBundle\Entity\Category, PixSortableBehaviorBundle:SortableAdmin, '@parameter_bag']
     tags:
-      - { name: sonata.admin, manager_type: orm, group: FAQ, label: Category, show_in_dashboard: "@=parameter('wd_faq.config')['use_category']" }
+      - { name: sonata.admin, manager_type: orm, group: FAQ, label: Catégorie de FAQ, show_in_dashboard: "@=parameter('wd_faq.config')['use_category']" }
     public: true
