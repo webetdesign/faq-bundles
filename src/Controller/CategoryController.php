@@ -32,12 +32,15 @@ class CategoryController extends BaseCmsController
     public function __invoke(Request $request, Category $category = null)
     {
         $categories = $this->categoryRepository->findAllByPosition();
+        $defaultCategory = false;
 
         if (!$category) {
             $category = $categories[0] ?? null;
+            $defaultCategory = true;
         }
 
         return $this->defaultRender([
+            'defaultCategory' => $defaultCategory,
             'category' => $category,
             'categories' => $categories,
         ]);
