@@ -86,14 +86,6 @@ final class FaqAdmin extends AbstractAdmin
             ->add('question', null,  [
                 'label' => 'Question'
             ])
-            ->add('createdAt', null,  [
-                'label' => 'Date de création',
-                'format' => 'd/m/y'
-            ])
-            ->add('updatedAt', null,  [
-                'label' => 'Dernière modification',
-                'format' => 'd/m/y'
-            ])
             ->add('visible', null, [
                 'label' => 'Visible',
             ])
@@ -150,14 +142,6 @@ final class FaqAdmin extends AbstractAdmin
         $showMapper
             ->add('question', null,  [
                 'label' => 'Question'
-            ])
-            ->add('createdAt', null,  [
-                'label' => 'Date de création',
-                'format' => 'd/m/y'
-            ])
-            ->add('updatedAt', null,  [
-                'label' => 'Dernière modification',
-                'format' => 'd/m/y'
             ])
             ->add('answer', null, [
                 'label' => 'Réponse',

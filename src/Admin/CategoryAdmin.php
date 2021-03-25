@@ -64,8 +64,6 @@ final class CategoryAdmin extends AbstractAdmin
             ]);
         $listMapper
             ->add('title')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('_action', null, [
                 'actions' => [
                     'show'   => [],
@@ -100,8 +98,7 @@ final class CategoryAdmin extends AbstractAdmin
             ->add('id')
             ->add('title')
             ->add('position')
-            ->add('createdAt')
-            ->add('updatedAt');
+        ;
     }
 
     protected function configureRoutes(RouteCollection $collection)
