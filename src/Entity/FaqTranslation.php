@@ -24,11 +24,11 @@ class FaqTranslation implements TranslationInterface
     private ?int $id = null;
 
     /**
-     * @var string
+     * @var null|string
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"question"}, updatable=true)
      */
-    private string $slug = '';
+    private ?string $slug = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -61,16 +61,16 @@ class FaqTranslation implements TranslationInterface
     /**
      * @return string
      */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
     /**
-     * @param string $slug
+     * @param null|string $slug
      * @return FaqTranslation
      */
-    public function setSlug(string $slug): FaqTranslation
+    public function setSlug(?string $slug): FaqTranslation
     {
         $this->slug = $slug;
         return $this;
