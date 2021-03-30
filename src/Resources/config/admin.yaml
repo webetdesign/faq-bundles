@@ -3,11 +3,13 @@ services:
     class: WebEtDesign\FaqBundle\Admin\FaqAdmin
     arguments: [~, WebEtDesign\FaqBundle\Entity\Faq, PixSortableBehaviorBundle:SortableAdmin, '@parameter_bag']
     tags:
-      - { name: sonata.admin, manager_type: orm, group: FAQ, label: FAQ, icon: <i class="fa fa-question" aria-hidden="true"></i> }
+      - { name: sonata.admin, manager_type: orm, group: FAQ, label: admin.faq.title, icon: <i class="fa fa-question" aria-hidden="true"></i>, label_translator_strategy: sonata.admin.label.strategy.underscore }
     public: true
   wd_faq.admin.category:
     class: WebEtDesign\FaqBundle\Admin\CategoryAdmin
     arguments: [~, WebEtDesign\FaqBundle\Entity\Category, PixSortableBehaviorBundle:SortableAdmin, '@parameter_bag']
     tags:
-      - { name: sonata.admin, manager_type: orm, group: FAQ, label: Catégorie de FAQ, show_in_dashboard: "@=parameter('wd_faq.config')['use_category']" }
+      - { name: sonata.admin, manager_type: orm, group: FAQ, label: admin.category.title, show_in_dashboard: "@=parameter('wd_faq.config')['use_category']", label_translator_strategy: sonata.admin.label.strategy.underscore }
     public: true
+    calls:
+      - [ addChild, ['@wd_faq.admin.faq', 'category']]

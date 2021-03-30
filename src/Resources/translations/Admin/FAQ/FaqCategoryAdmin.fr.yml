@@ -1,0 +1,21 @@
+breadcrumb:
+  link_category_create: Ajout
+  link_category_list: Catégorie de FAQ
+
+admin:
+  category:
+    title: Catégorie de FAQ
+
+list:
+  label_position: Position
+  label_title: Titre
+  label__action: Actions
+
+form:
+  label_title: Titre
+
+filter:
+  label_translations_title: Titre
+
+tab_category_edit: Édition de la catégorie
+tab_category_faq_list: Listes des FAQs de la catégorie
