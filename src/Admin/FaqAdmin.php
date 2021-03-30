@@ -113,9 +113,9 @@ final class FaqAdmin extends AbstractAdmin
             ])
             ->add('translations', TranslationsType::class, [
                 'label'            => false,
-                'locales'          => $this->parameterBag->get('locales'),
-                'default_locale'   => $this->parameterBag->get('default_locale'),
-                'required_locales' => [$this->parameterBag->get('default_locale')],
+                'locales'          => $this->parameterBag->get('wd_faq.locales'),
+                'default_locale'   => $this->parameterBag->get('wd_faq.default_locale'),
+                'required_locales' => [$this->parameterBag->get('wd_faq.default_locale')],
                 'fields'           => [
                     'question'       => [
                         'field_type' => TextType::class,
