@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('configuration')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('use_category')->defaultFalse()->end()
+                        ->scalarNode('admin_with_export')->defaultFalse()->end()
                         ->scalarNode('ckeditor_context')->defaultValue('default')->end()
                     ->end()
                 ->end()

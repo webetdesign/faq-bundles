@@ -1,0 +1,28 @@
+breadcrumb:
+  link_faq_list: FAQ
+  link_faq_create: Ajouter
+
+admin:
+  faq:
+    title: FAQ
+
+list:
+  label_position: Position
+  label_category: Catégorie
+  label_visible: Afficher
+  label_question: Question
+  label__action: Actions
+
+form:
+  label_category: Catégorie
+  label_visible: Afficher
+  label_question: Question
+  label_answer: Réponse
+
+filter:
+  label_category: Catégorie
+  label_visible: Afficher
+  label_translations_question: Question
+
+label_type_yes: oui
+label_type_no: non

@@ -30,11 +30,11 @@ class CategoryTranslation implements TranslationInterface
     private string $title = '';
 
     /**
-     * @var string
+     * @var null|string
      * @ORM\Column(type="string", length=255)
      * @Gedmo\Slug(fields={"title"}, updatable=true)
      */
-    private string $slug = '';
+    private ?string $slug = null;
 
     /**
      * @return int|null
@@ -73,18 +73,18 @@ class CategoryTranslation implements TranslationInterface
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getSlug(): string
+    public function getSlug(): ?string
     {
         return $this->slug;
     }
 
     /**
-     * @param string $slug
+     * @param null|string $slug
      * @return CategoryTranslation
      */
-    public function setSlug(string $slug): CategoryTranslation
+    public function setSlug(?string $slug): CategoryTranslation
     {
         $this->slug = $slug;
         return $this;
