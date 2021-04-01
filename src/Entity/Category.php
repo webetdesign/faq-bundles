@@ -92,6 +92,13 @@ class Category implements TranslatableInterface
         return $this->faqs;
     }
 
+    public function getVisibleFaqs()
+    {
+        return $this->getFaqs()->filter(function(Faq $faq) {
+            return $faq->getVisible() === true;
+        });
+    }
+
     public function addFaq(Faq $faq): self
     {
         if (!$this->faqs->contains($faq)) {
