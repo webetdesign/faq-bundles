@@ -64,7 +64,7 @@ class Category implements TranslatableInterface
      */
     public function __toString()
     {
-        return (string) $this->getTitle();
+        return (string)$this->getTitle();
     }
 
     public function getId(): ?int
@@ -94,9 +94,20 @@ class Category implements TranslatableInterface
 
     public function getVisibleFaqs()
     {
-        return $this->getFaqs()->filter(function(Faq $faq) {
-            return $faq->getVisible() === true;
-        });
+        return $this->getFaqs()->filter(
+            function (Faq $faq) {
+                return $faq->getVisible() === true;
+            }
+        );
+    }
+
+    public function getOtherVisibleFaqs(Faq $faq)
+    {
+        return $this->getFaqs()->filter(
+            function (Faq $f) use ($faq) {
+                return $f->getVisible() === true && $f->getId() !== $faq->getId();
+            }
+        );
     }
 
     public function addFaq(Faq $faq): self
