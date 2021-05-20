@@ -1,10 +1,10 @@
 breadcrumb:
   link_category_create: Ajout
-  link_category_list: Catégorie de FAQ
+  link_category_list: Catégories de questions
 
 admin:
   category:
-    title: Catégorie de FAQ
+    title: Catégories de questions
 
 list:
   label_position: Position
