@@ -91,13 +91,15 @@ final class FaqAdmin extends AbstractAdmin
                 );
         }
 
+        $listMapper
+            ->add('question')
+            ->add('visible');
+
         if ($this->config['use_category'] && !$this->isChild()) {
             $listMapper->addIdentifier('category');
         }
 
         $listMapper
-            ->add('question')
-            ->add('visible')
             ->add(
                 '_action',
                 null,
@@ -142,7 +144,7 @@ final class FaqAdmin extends AbstractAdmin
                             'field_type'         => SimpleFormatterType::class,
                             'label'              => 'form.label_answer',
                             'translation_domain' => $this->translationDomain,
-                            'required'           => false,
+                            'required'           => true,
                             'format'             => 'richhtml',
                             'ckeditor_context'   => $this->config['ckeditor_context'],
                             'attr'               => [
@@ -166,7 +168,7 @@ final class FaqAdmin extends AbstractAdmin
 
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('move', $this->getRouterIdParameter().'/move/{position}');
+        $collection->add('move', $this->getRouterIdParameter() . '/move/{position}');
         $collection->remove('show');
 
         if (!$this->config['admin_with_export']) {
