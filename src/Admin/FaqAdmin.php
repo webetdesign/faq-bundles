@@ -151,6 +151,24 @@ final class FaqAdmin extends AbstractAdmin
                                 'rows' => 15,
                             ],
                         ],
+                        'seoTitle' => [
+                            'field_type'         => TextType::class,
+                            'label'              => 'form.seo_title',
+                            'required' => false,
+                            'translation_domain' => $this->translationDomain,
+                        ],
+                        'seoDescription' => [
+                            'field_type'         => TextType::class,
+                            'label'              => 'form.seo_description',
+                            'required' => false,
+                            'translation_domain' => $this->translationDomain,
+                        ],
+                        'seoKeywords' => [
+                            'field_type'         => TextType::class,
+                            'label'              => 'form.seo_keywords',
+                            'required' => false,
+                            'translation_domain' => $this->translationDomain,
+                        ],
                     ],
                     'excluded_fields'  => ['slug'],
                 ]

@@ -7,6 +7,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
+use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
+use WebEtDesign\SeoBundle\Entity\SmoOpenGraphTrait;
+use WebEtDesign\SeoBundle\Entity\SmoTwitterTrait;
 
 /**
  * @ORM\Entity()
@@ -15,6 +18,8 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 class FaqTranslation implements TranslationInterface
 {
     use TranslationTrait;
+
+    use SeoAwareTrait;
 
     /**
      * @ORM\Id()
@@ -39,6 +44,12 @@ class FaqTranslation implements TranslationInterface
      * @ORM\Column(type="text")
      */
     private string $answer = '';
+
+    public function __toString(): string
+    {
+        return $this->getQuestion();
+    }
+
 
     /**
      * @return int|null
