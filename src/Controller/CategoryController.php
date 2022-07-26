@@ -3,9 +3,7 @@
 
 namespace WebEtDesign\FaqBundle\Controller;
 
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebEtDesign\CmsBundle\Controller\BaseCmsController;
@@ -14,14 +12,9 @@ use WebEtDesign\FaqBundle\Repository\CategoryRepository;
 
 class CategoryController extends BaseCmsController
 {
-    /**
-     * @var CategoryRepository
-     */
-    private CategoryRepository $categoryRepository;
+    const ROUTE_FAQ_CATEGORIES = 'faq_categories';
 
-    public function __construct(CategoryRepository $categoryRepository) {
-        $this->categoryRepository = $categoryRepository;
-    }
+    public function __construct(private CategoryRepository $categoryRepository) {}
 
     /**
      * @param Request $request
@@ -29,7 +22,7 @@ class CategoryController extends BaseCmsController
      * @return Response
      * @Entity("category", expr="repository.findOneBySlug(category)")
      */
-    public function __invoke(Request $request, Category $category = null)
+    public function __invoke(Request $request, Category $category = null): Response
     {
         $categories = $this->categoryRepository->findAllByPosition();
         $defaultCategory = false;

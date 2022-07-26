@@ -11,4 +11,11 @@ services:
     resource: '../../Controller/*'
     tags: [ 'controller.service_arguments' ]
 
+  WebEtDesign\FaqBundle\CMS\FaqPage:
+    autowire: true
+    autoconfigure: true
+
+  WebEtDesign\FaqBundle\CMS\CategoryPage:
+    autowire: true
+    autoconfigure: true
 

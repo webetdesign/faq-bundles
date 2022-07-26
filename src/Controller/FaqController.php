@@ -3,7 +3,6 @@
 
 namespace WebEtDesign\FaqBundle\Controller;
 
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,22 +14,9 @@ use WebEtDesign\FaqBundle\Repository\CategoryRepository;
 
 class FaqController extends BaseCmsController
 {
-    /**
-     * @var CategoryRepository
-     */
-    private CategoryRepository $categoryRepository;
-    /**
-     * @var ParameterBagInterface
-     */
-    private ParameterBagInterface $parameterBag;
+    const ROUTE_FAQ_SHOW = 'faq_show';
 
-    /**
-     * @inheritDoc
-     */
-    public function __construct(CategoryRepository $categoryRepository, ParameterBagInterface $parameterBag) {
-        $this->categoryRepository = $categoryRepository;
-        $this->parameterBag = $parameterBag;
-    }
+    public function __construct(private CategoryRepository $categoryRepository, private ParameterBagInterface $parameterBag) {}
 
     /**
      * @param Request $request
@@ -42,7 +28,7 @@ class FaqController extends BaseCmsController
      * @Entity("faq", expr="repository.findOneBySlug(faq)")
      *
      */
-    public function __invoke(Request $request, Faq $faq, Category $category = null)
+    public function __invoke(Request $request, Faq $faq, Category $category = null): Response
     {
         $config = $this->parameterBag->get('wd_faq.config');
 
