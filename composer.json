@@ -9,29 +9,34 @@
       "homepage": "https://www.webetdesign.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/webetdesign/wd-sortable-bundle.git"
+    }
+  ],
   "require": {
-    "php": "^7.4 || ^8.0",
-    "doctrine/common": "^2.11 || ^3.0",
+    "php": "^8.0",
+    "doctrine/common": "^2.11 || ^3.1",
     "doctrine/doctrine-bundle": "^1.12 || ^2.0",
     "doctrine/orm": "^2.6.4 || ^3.0",
-    "doctrine/inflector": "^1.1",
+    "doctrine/inflector": "^2.0 || ^1.1",
     "a2lix/translation-form-bundle": "^3.0",
     "knplabs/doctrine-behaviors": "^2.0",
-    "pixassociates/sortable-behavior-bundle": "^1.5",
-    "sonata-project/media-bundle": "^3.18",
+    "webetdesign/wd-sortable-bundle": "^1",
     "stof/doctrine-extensions-bundle": "^1.3",
-    "symfony/config": "^4.0",
-    "symfony/dependency-injection": "^4.0",
+    "symfony/config": "^5.4",
+    "symfony/dependency-injection": "^5.4",
     "symfony/doctrine-bridge": "^4.2",
-    "symfony/event-dispatcher": "^4.0",
-    "symfony/expression-language": "^4.0"
+    "symfony/event-dispatcher": "^5.4",
+    "symfony/expression-language": "^5.4",
+    "sonata-project/admin-bundle": "4.* || ^3.45",
+    "symfony/filesystem": "^5.4",
+    "symfony/twig-bundle": "^5.4",
+    "symfony/yaml": "^5.4"
   },
   "require-dev": {
-    "sonata-project/admin-bundle": "^3.81",
-    "symfony/filesystem": "^4.0",
-    "symfony/phpunit-bridge": "^4.0",
-    "symfony/twig-bundle": "^4.0",
-    "symfony/yaml": "^4.0"
+    "symfony/phpunit-bridge": "^5.4",
   },
   "config": {
     "sort-packages": true
