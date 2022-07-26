@@ -40,7 +40,7 @@ class Category implements TranslatableInterface
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="Faq", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Faq", mappedBy="category", cascade={"remove"})
      * @ORM\OrderBy({"position" = "ASC"})
      */
     private $faqs;

@@ -10,9 +10,8 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('wd_faq');
-        $rootNode
+        $treeBuilder = new TreeBuilder('wd_faq');
+        $treeBuilder->getRootNode()
             ->children()
                 ->scalarNode('default_locale')->isRequired()->end()
                 ->arrayNode('locales')

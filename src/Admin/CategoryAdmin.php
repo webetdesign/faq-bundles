@@ -10,8 +10,10 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Admin\AdminInterface;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,18 +23,17 @@ final class CategoryAdmin extends AbstractAdmin
 {
     private $config;
 
-    protected $translationDomain = 'FaqCategoryAdmin';
+    protected string $translationDomain = 'FaqCategoryAdmin';
 
-    /**
-     * @var ParameterBagInterface
-     */
     private ParameterBagInterface $parameterBag;
 
-    protected $datagridValues = [
-        '_page'       => 1,
-        '_sort_order' => 'ASC',
-        '_sort_by'    => 'position',
-    ];
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query->orderBY('o.position', 'ASC');
+        return $query;
+    }
+
 
     /**
      * @inheritDoc
@@ -66,33 +67,26 @@ final class CategoryAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('translations.title');
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        unset($this->listModes['mosaic']);
-
-        $listMapper
-            ->add(
-                'position',
-                'actions',
-                [
-                    'actions' => [
-                        'move' => [
-                            'template'                  => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
-                            'enable_top_bottom_buttons' => false,
-                        ],
-                    ],
+        $list
+            ->add('position', 'actions', [
+                'actions' => [
+                    'move' => [
+                        'template' => '@WDSortable/Default/_sort_drag_drop.html.twig',
+                    ]
                 ]
-            );
-        $listMapper
+            ]);
+        $list
             ->add('title')
             ->add(
-                '_action',
+                ListMapper::NAME_ACTIONS,
                 null,
                 [
                     'actions' => [
@@ -103,9 +97,9 @@ final class CategoryAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add(
                 'translations',
                 TranslationsType::class,
@@ -126,15 +120,15 @@ final class CategoryAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureShowFields(ShowMapper $showMapper): void
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('title')
             ->add('position');
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('move', $this->getRouterIdParameter().'/move/{position}');
         $collection->remove('show');

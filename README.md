@@ -4,32 +4,46 @@
 
 ```json
 {
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/webetdesign/faq-bundles.git"
-        }
-    ]
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/webetdesign/faq-bundles.git"
+    },
+    {
+      "type": "git",
+      "url": "https://github.com/webetdesign/wd-sortable-bundle.git"
+    }
+  ]
 }
 ```
+
 > Register the repository into your `composer.json`.
 
 ```json
 {
   "require": {
-    "webetdesign/faq-bundle": "^1.1.0"
+    "webetdesign/faq-bundle": "^3.0"
   }
 }
 ```
-> Require the bundle into your `composer.json`. 
 
+> Require the bundle into your `composer.json`.
+
+> Register the bundles in ```config/bundles.php```
+```php
+  return [
+    WebEtDesign\SortableBundle\WDSortableBundle::class => ['all' => true],
+    WebEtDesign\FaqBundle\FaqBundle::class => ['all' => true],
+]
+```
 _____________
 
 By default categories are disabled add this configuration to activate them.
+
 ```yaml
-# config/packages/wd_faq.yaml
+# config/packages/webetdesign/wd_faq.yaml
 wd_faq:
-  locale: '%locales%'
+  locales: '%locales%'
   default_locale: '%default_locale%'
   configuration:
     use_category: true
@@ -38,49 +52,40 @@ wd_faq:
 ```yaml
 # config/packages/sonata_admin.yaml
 sonata_admin:
-    dashboard:
-        groups:
-            FAQ:
-                keep_open:        false
-                label:            FAQ
-                icon:             '<i class="fa fa-question"></i>'
-                on_top:           true
-                items:
-                    - wd_faq.admin.faq
+  dashboard:
+    groups:
+      FAQ:
+        keep_open: false
+        label: FAQ
+        icon: '<i class="fa fa-question"></i>'
+        on_top: true
+        items:
+          - wd_faq.admin.faq
 ```
+
 > if you use category use the config bellow
+
 ```yaml
 # config/packages/sonata_admin.yaml
 sonata_admin:
-    dashboard:
-        groups:
-            FAQ:
-                keep_open:        false
-                label:            FAQ
-                icon:             '<i class="fa fa-question"></i>'
-                items:
-                    - wd_faq.admin.faq
-                    - wd_faq.admin.category
-```
-
-```yaml
-# config/packages/stof_doctrine_extensions.yaml
-stof_doctrine_extensions:
-    default_locale: fr
-    orm:
-        default:
-            [...]
-            sortable: true
-
+  dashboard:
+    groups:
+      FAQ:
+        keep_open: false
+        label: FAQ
+        icon: '<i class="fa fa-question"></i>'
+        items:
+          - wd_faq.admin.faq
+          - wd_faq.admin.category
 ```
 
 ```yaml
 # config/packages/sonata_admin.yaml
 
-  assets:
-    extra_javascripts:
-      [...]
-      - bundles/pixsortablebehavior/js/init.js
+assets:
+  extra_javascripts:
+    [ ... ]
+    - bundles/wdsortable/js/init.js
 ```
 
 ```yaml
@@ -102,7 +107,7 @@ web_et_design_cms:
         # TODO add contents according to your needs
         - { label: 'title', code: 'title', type: 'TEXT' }
         - { label: 'subtitle', code: 'subtitle', type: 'TEXT' }
-    
+
     faq:
       label: faq
       controller: WebEtDesign\FaqBundle\Controller\FaqController
@@ -134,5 +139,6 @@ web_et_design_cms:
         # TODO add contents according to your needs
         - { label: 'title', code: 'title', type: 'TEXT' }
 ```
-> You can now create the pages in admin. 
+
+> You can now create the pages in admin.
 > Different controllers are available if you want a page with dropdowns or several pages (category, faq)

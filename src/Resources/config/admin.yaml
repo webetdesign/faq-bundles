@@ -1,15 +1,15 @@
 services:
   wd_faq.admin.faq:
     class: WebEtDesign\FaqBundle\Admin\FaqAdmin
-    arguments: [~, WebEtDesign\FaqBundle\Entity\Faq, PixSortableBehaviorBundle:SortableAdmin, '@parameter_bag']
+    arguments: [~, WebEtDesign\FaqBundle\Entity\Faq, WebEtDesign\SortableBundle\Controller\SortableAdminController, '@parameter_bag']
     tags:
-      - { name: sonata.admin, manager_type: orm, group: FAQ, label: admin.faq.title, icon: <i class="fa fa-question" aria-hidden="true"></i>, label_translator_strategy: sonata.admin.label.strategy.underscore }
+      - { name: sonata.admin, manager_type: orm, group: FAQ, label: Questions / Réponses, icon: <i class="fa fa-question" aria-hidden="true"></i> }
     public: true
   wd_faq.admin.category:
     class: WebEtDesign\FaqBundle\Admin\CategoryAdmin
-    arguments: [~, WebEtDesign\FaqBundle\Entity\Category, PixSortableBehaviorBundle:SortableAdmin, '@parameter_bag']
+    arguments: [~, WebEtDesign\FaqBundle\Entity\Category, WebEtDesign\SortableBundle\Controller\SortableAdminController, '@parameter_bag']
     tags:
-      - { name: sonata.admin, manager_type: orm, group: FAQ, label: admin.category.title, show_in_dashboard: "@=parameter('wd_faq.config')['use_category']", label_translator_strategy: sonata.admin.label.strategy.underscore }
+      - { name: sonata.admin, manager_type: orm, group: FAQ, label: Catégories, show_in_dashboard: "@=parameter('wd_faq.config')['use_category']" }
     public: true
     calls:
       - [ addChild, ['@wd_faq.admin.faq', 'category']]

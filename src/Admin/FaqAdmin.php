@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace WebEtDesign\FaqBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\AdminBundle\Route\RouteCollection;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\BooleanFilter;
-use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,18 +24,16 @@ final class FaqAdmin extends AbstractAdmin
 {
     private $config;
 
-    protected $translationDomain = 'FaqAdmin';
+    protected string $translationDomain = 'FaqAdmin';
 
-    /**
-     * @var ParameterBagInterface
-     */
     private ParameterBagInterface $parameterBag;
 
-    protected $datagridValues = [
-        '_page'       => 1,
-        '_sort_order' => 'ASC',
-        '_sort_by'    => 'position',
-    ];
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query->orderBY('o.position', 'ASC');
+        return $query;
+    }
 
     /**
      * @inheritDoc
@@ -45,9 +45,9 @@ final class FaqAdmin extends AbstractAdmin
         $this->config       = $this->parameterBag->get('wd_faq.config');
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
+    protected function configureDatagridFilters(DatagridMapper $filter): void
     {
-        $datagridMapper
+        $filter
             ->add('translations.question', null, ['advanced_filter' => false])
             ->add(
                 'visible',
@@ -59,7 +59,7 @@ final class FaqAdmin extends AbstractAdmin
             );
 
         if ($this->config['use_category']) {
-            $datagridMapper->add(
+            $filter->add(
                 'category',
                 null,
                 [
@@ -70,38 +70,31 @@ final class FaqAdmin extends AbstractAdmin
         }
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
+    protected function configureListFields(ListMapper $list): void
     {
-        unset($this->listModes['mosaic']);
-
         $filters = $this->getFilterParameters();
-        if (!$this->config['use_category'] || (isset($filters['category']) && !empty($filters['category']['value']))) {
-            $listMapper
-                ->add(
-                    'position',
-                    'actions',
-                    [
-                        'actions' => [
-                            'move' => [
-                                'template'                  => '@PixSortableBehavior/Default/_sort_drag_drop.html.twig',
-                                'enable_top_bottom_buttons' => false,
-                            ],
-                        ],
+        if ($this->getRequest()->get('_route') === 'admin_webetdesign_faq_faq_list' && (!$this->config['use_category'] || (isset($filters['category']) && !empty($filters['category']['value'])))) {
+            $list
+                ->add('position', 'actions', [
+                    'actions' => [
+                        'move' => [
+                            'template' => '@WDSortable/Default/_sort_drag_drop.html.twig',
+                        ]
                     ]
-                );
+                ]);
         }
 
-        $listMapper
+        $list
             ->add('question')
             ->add('visible');
 
         if ($this->config['use_category'] && !$this->isChild()) {
-            $listMapper->addIdentifier('category');
+            $list->addIdentifier('category');
         }
 
-        $listMapper
+        $list
             ->add(
-                '_action',
+                ListMapper::NAME_ACTIONS,
                 null,
                 [
                     'actions' => [
@@ -112,13 +105,13 @@ final class FaqAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
         if ($this->config['use_category']) {
-            $formMapper->add('category', ModelListType::class);
+            $form->add('category', ModelListType::class);
         }
 
-        $formMapper
+        $form
             ->add(
                 'visible',
                 CheckboxType::class,
@@ -141,12 +134,11 @@ final class FaqAdmin extends AbstractAdmin
                             'translation_domain' => $this->translationDomain,
                         ],
                         'answer'   => [
-                            'field_type'         => SimpleFormatterType::class,
+                            'field_type'         => CKEditorType::class,
                             'label'              => 'form.label_answer',
                             'translation_domain' => $this->translationDomain,
                             'required'           => true,
-                            'format'             => 'richhtml',
-                            'ckeditor_context'   => $this->config['ckeditor_context'],
+                            'config_name'   => $this->config['ckeditor_context'],
                             'attr'               => [
                                 'rows' => 15,
                             ],
@@ -175,16 +167,16 @@ final class FaqAdmin extends AbstractAdmin
             );
     }
 
-    protected function configureShowFields(ShowMapper $showMapper): void
+    protected function configureShowFields(ShowMapper $show): void
     {
-        $showMapper
+        $show
             ->add('id')
             ->add('question')
             ->add('answer')
             ->add('visible');
     }
 
-    protected function configureRoutes(RouteCollection $collection)
+    protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->add('move', $this->getRouterIdParameter() . '/move/{position}');
         $collection->remove('show');
