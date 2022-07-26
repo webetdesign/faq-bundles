@@ -36,7 +36,7 @@
     "symfony/yaml": "^5.4"
   },
   "require-dev": {
-    "symfony/phpunit-bridge": "^5.4",
+    "symfony/phpunit-bridge": "^5.4"
   },
   "config": {
     "sort-packages": true
