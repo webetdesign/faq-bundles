@@ -7,12 +7,10 @@ use WebEtDesign\FaqBundle\DependencyInjection\FaqBundleExtension;
 
 class FaqBundle extends Bundle
 {
-    /**
-     * @inheritDoc
-     */
-    public function getContainerExtension()
-    {
-        return new FaqBundleExtension();
-    }
+  
+//    public function getContainerExtension()
+//    {
+//        return new FaqBundleExtension();
+//    }
 
 }
