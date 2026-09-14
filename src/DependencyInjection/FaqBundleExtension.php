@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class FaqBundleExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $processor     = new Processor();
@@ -26,7 +26,7 @@ class FaqBundleExtension extends Extension
 
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'wd_faq';
     }
