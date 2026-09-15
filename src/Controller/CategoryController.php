@@ -22,7 +22,7 @@ class CategoryController extends BaseCmsController
      * @return Response
      * @Entity("category", expr="repository.findOneBySlug(category)")
      */
-    public function __invoke(Request $request, Category $category = null): Response
+    public function __invoke(Request $request, ?Category $category = null): Response
     {
         $categories = $this->categoryRepository->findAllByPosition();
         $defaultCategory = false;

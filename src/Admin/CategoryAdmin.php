@@ -45,7 +45,7 @@ final class CategoryAdmin extends AbstractAdmin
         $this->config       = $this->parameterBag->get('wd_faq.config');
     }
 
-    protected function configureTabMenu(ItemInterface $menu, $action, AdminInterface $childAdmin = null): void
+    protected function configureTabMenu(ItemInterface $menu, $action, ?AdminInterface $childAdmin = null): void
     {
         if (!$childAdmin && !in_array($action, ['edit', 'show'])) {
             return;

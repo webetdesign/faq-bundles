@@ -28,7 +28,7 @@ class FaqController extends BaseCmsController
      * @Entity("faq", expr="repository.findOneBySlug(faq)")
      *
      */
-    public function __invoke(Request $request, Faq $faq, Category $category = null): Response
+    public function __invoke(Request $request, Faq $faq, ?Category $category = null): Response
     {
         $config = $this->parameterBag->get('wd_faq.config');
 
