@@ -5,6 +5,7 @@ namespace WebEtDesign\FaqBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use WebEtDesign\FaqBundle\Repository\CategoryRepository;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
@@ -12,37 +13,32 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 /**
- * @ORM\Entity(repositoryClass="WebEtDesign\FaqBundle\Repository\CategoryRepository")
- * @ORM\Table(name="faq__category")
- *
  * @method string getTitle()
  * @method string getSlug()
  * @method self setTitle() setTitle(string $label)
  * @method self setSlug() setSlug(string $slug)
  */
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\Table(name: 'faq__category')]
 class Category implements TranslatableInterface
 {
     use TimestampableEntity;
     use TranslatableTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     * @Gedmo\SortablePosition
-     */
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    #[Gedmo\SortablePosition]
     private int $position = 0;
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="Faq", mappedBy="category", cascade={"remove"})
-     * @ORM\OrderBy({"position" = "ASC"})
      */
+    #[ORM\OneToMany(targetEntity: Faq::class, mappedBy: 'category', cascade: ['remove'])]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private $faqs;
 
     public function __construct()

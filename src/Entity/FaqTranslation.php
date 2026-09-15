@@ -11,38 +11,30 @@ use WebEtDesign\SeoBundle\Entity\SeoAwareTrait;
 use WebEtDesign\SeoBundle\Entity\SmoOpenGraphTrait;
 use WebEtDesign\SeoBundle\Entity\SmoTwitterTrait;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="faq__faq_translation")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'faq__faq_translation')]
 class FaqTranslation implements TranslationInterface
 {
     use TranslationTrait;
 
     use SeoAwareTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
     /**
      * @var null|string
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"question"}, updatable=true)
      */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Slug(fields: ['question'], updatable: true)]
     private ?string $slug = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private string $question = '';
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: 'text')]
     private string $answer = '';
 
     public function __toString(): string
