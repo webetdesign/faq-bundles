@@ -8,11 +8,9 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\Component\PropertyAccess\PropertyAccess;
+use WebEtDesign\FaqBundle\Repository\FaqRepository;
 
 /**
- * @ORM\Entity(repositoryClass="WebEtDesign\FaqBundle\Repository\FaqRepository")
- * @ORM\Table(name="faq__faq")
- *
  * @method string getQuestion()
  * @method string getAnswer()
  * @method string getSlug()
@@ -20,35 +18,28 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
  * @method self setAnswer() setAnswer(string $slug)
  * @method self setSlug() setSlug(string $slug)
  */
+#[ORM\Entity(repositoryClass: FaqRepository::class)]
+#[ORM\Table(name: 'faq__faq')]
 class Faq implements TranslatableInterface
 {
     use TimestampableEntity;
     use TranslatableTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     * @Gedmo\SortablePosition
-     */
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    #[Gedmo\SortablePosition]
     private int $position = 0;
 
-    /**
-     * @var null|Category
-     * @ORM\ManyToOne(targetEntity="WebEtDesign\FaqBundle\Entity\Category", inversedBy="faqs")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * @Gedmo\SortableGroup
-     */
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'faqs')]
+    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id')]
+    #[Gedmo\SortableGroup]
     private ?Category $category = null;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default": 0})
-     */
+    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => 0])]
     private bool $visible = false;
 
     public function __toString()

@@ -9,31 +9,22 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="faq__category_translation")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'faq__category_translation')]
 class CategoryTranslation implements TranslationInterface
 {
     use TranslationTrait;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
     private string $title = '';
 
-    /**
-     * @var null|string
-     * @ORM\Column(type="string", length=255)
-     * @Gedmo\Slug(fields={"title"}, updatable=true)
-     */
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Gedmo\Slug(fields: ['title'], updatable: true)]
     private ?string $slug = null;
 
     /**

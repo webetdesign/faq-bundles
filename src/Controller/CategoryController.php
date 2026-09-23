@@ -3,7 +3,7 @@
 
 namespace WebEtDesign\FaqBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use WebEtDesign\CmsBundle\Controller\BaseCmsController;
@@ -20,9 +20,8 @@ class CategoryController extends BaseCmsController
      * @param Request $request
      * @param Category|null $category
      * @return Response
-     * @Entity("category", expr="repository.findOneBySlug(category)")
      */
-    public function __invoke(Request $request, Category $category = null): Response
+    public function __invoke(Request $request, #[MapEntity(expr: 'repository.findOneBySlug(category)')] ?Category $category = null): Response
     {
         $categories = $this->categoryRepository->findAllByPosition();
         $defaultCategory = false;
