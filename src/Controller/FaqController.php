@@ -3,7 +3,7 @@
 
 namespace WebEtDesign\FaqBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,12 +23,14 @@ class FaqController extends BaseCmsController
      * @param Faq $faq
      * @param Category|null $category
      * @return Response
-     *
-     * @Entity("category", expr="repository.findOneBySlug(category)")
-     * @Entity("faq", expr="repository.findOneBySlug(faq)")
-     *
      */
-    public function __invoke(Request $request, Faq $faq, Category $category = null): Response
+    public function __invoke(
+        Request $request,
+        #[MapEntity(expr: 'repository.findOneBySlug(faq)')]
+        Faq $faq,
+        #[MapEntity(expr: 'repository.findOneBySlug(category)')]
+        ?Category $category = null
+    ): Response
     {
         $config = $this->parameterBag->get('wd_faq.config');
 
